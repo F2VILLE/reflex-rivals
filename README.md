@@ -1,3 +1,6 @@
+# Reflex Rivals
+This is a physical game that put your reflexes through a reaction challenge.
+Press the right color the fastest to win !
 
 # Wiring
 
