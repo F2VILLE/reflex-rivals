@@ -21,5 +21,6 @@
 - [ ] End game
 - [ ] Display scores on screen & rise flags
 - [ ] Game settings (on screen)
-
+- [ ] Display current score state on the led strip (Blue vs Red)
+- [ ] Display winner by filling the whole LED strip with the winner's color
 
