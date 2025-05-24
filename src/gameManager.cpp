@@ -32,7 +32,7 @@ GameManager::GameManager() {
     settings.maxScore = 100;
     settings.maxTimeout = 60;
     colors[0][0] = 255; colors[0][1] = 0;   colors[0][2] = 0;   // Red
-    colors[1][0] = 255;   colors[1][1] = 255; colors[1][2] = 255;   // White
+    colors[1][0] = 0;   colors[1][1] = 255; colors[1][2] = 255;   // White
     colors[2][0] = 0;   colors[2][1] = 0;   colors[2][2] = 255; // Blue
 
     currentColor[0] = 0;
@@ -52,10 +52,11 @@ int GameManager::getRandomColorIndex() {
     return randomIndex;
 }
 
-void GameManager::setColor(int color[3]) {
+void GameManager::setColor(int colorIndex) {
     for (int i = 0; i < 3; i++) {
-        currentColor[i] = color[i];
+        currentColor[i] = colors[colorIndex][i];
     }
+    currentColorIndex = colorIndex;
 }
 
 

@@ -46,7 +46,7 @@ public:
     void turnOnLED(int color[3]);
     void turnOffLED();
     int getRandomColorIndex();
-    void setColor(int color[3]);
+    void setColor(int colorIndex);
 };
 
 
