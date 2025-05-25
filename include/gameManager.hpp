@@ -1,7 +1,9 @@
 #ifndef GAME_MANAGER_HPP
 #define GAME_MANAGER_HPP
 #include <PINOUTS.hpp>
-
+#include <Adafruit_SSD1306.h>
+#include <Adafruit_NeoPixel.h>
+#include <ESP32Servo.h>
 #define COLOR_INDEX_R 0
 #define COLOR_INDEX_W 1
 #define COLOR_INDEX_B 2
@@ -41,7 +43,7 @@ public:
     int running = 0;
     int ledState = 0;
     void startGame();
-    void endGame();
+    void endGame(Adafruit_SSD1306 &display, Servo &motor, Adafruit_NeoPixel &WS2812B);
     void resetGame();
     void turnOnLED(int color[3]);
     void turnOffLED();
