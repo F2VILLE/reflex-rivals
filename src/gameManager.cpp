@@ -44,7 +44,7 @@ GameManager::GameManager()
     colors[0][2] = 0; // Red
     colors[1][0] = 0;
     colors[1][1] = 255;
-    colors[1][2] = 255; // White
+    colors[1][2] = 0; // Green
     colors[2][0] = 0;
     colors[2][1] = 0;
     colors[2][2] = 255; // Blue
