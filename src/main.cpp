@@ -42,14 +42,14 @@ void setup()
   pinMode(POTENTIOMETER, INPUT);
   pinMode(BUZZER, OUTPUT);
   pinMode(PLAYER1_BUTTON_R, INPUT_PULLUP);
-  // pinMode(PLAYER1_BUTTON_G, INPUT_PULLUP);
-  // pinMode(PLAYER1_BUTTON_B, INPUT_PULLUP);
-  // pinMode(PLAYER2_BUTTON_R, INPUT_PULLUP);
-  // pinMode(PLAYER2_BUTTON_G, INPUT_PULLUP);
-  // pinMode(PLAYER2_BUTTON_B, INPUT_PULLUP);
+  pinMode(PLAYER1_BUTTON_G, INPUT_PULLUP);
+  pinMode(PLAYER1_BUTTON_B, INPUT_PULLUP);
+  pinMode(PLAYER2_BUTTON_R, INPUT_PULLUP);
+  pinMode(PLAYER2_BUTTON_G, INPUT_PULLUP);
+  pinMode(PLAYER2_BUTTON_B, INPUT_PULLUP);
   pinMode(START_BUTTON, INPUT_PULLUP);
 
-  Wire.begin(OLED_DISPLAY_SDA, OLED_DISPLAY_SCL); // SDA, SCL
+  Wire.begin(OLED_DISPLAY_SDA, OLED_DISPLAY_SCL);
   display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR);
   delay(100);
   display.clearDisplay();
@@ -69,34 +69,32 @@ void setup()
   delay(2000);
   Serial.println("");
   gameManager = GameManager();
-  gameManager.settings.buzzerVolume = 20; // in percentage
-  gameManager.settings.maxScore = 10;     // Set max score for the game
+  gameManager.settings.buzzerVolume = 20;
+  gameManager.settings.maxScore = 10;
   gameManager.settings.maxTimeout = 3000;
   Serial.println("Game Manager Initialized");
 }
 
-int playerButtonRead() // TO FINISH
+int playerButtonRead()
 {
-  if (digitalRead(PLAYER1_BUTTON_R) == LOW && lastButtonsPressed[0] + 1000 < millis()
-      // || digitalRead(PLAYER2_BUTTON_R) == LOW
-  )
+  if (digitalRead(PLAYER1_BUTTON_R) == LOW && lastButtonsPressed[0] + 1000 < millis() || digitalRead(PLAYER2_BUTTON_R) == LOW)
   {
     return (digitalRead(PLAYER1_BUTTON_R) == LOW) ? 0x01 : 0x02; // Player 1 or 2, Red
   }
-  // else if (digitalRead(PLAYER1_BUTTON_G) == LOW || digitalRead(PLAYER2_BUTTON_G) == LOW)
-  // {
-  //   return (digitalRead(PLAYER1_BUTTON_G) == LOW) ? 0x11 : 0x12; // Player 1 or 2, Green
-  // }
-  // else if (digitalRead(PLAYER1_BUTTON_B) == LOW || digitalRead(PLAYER2_BUTTON_B) == LOW)
-  // {
-  //   return (digitalRead(PLAYER1_BUTTON_B) == LOW) ? 0x21 : 0x22; // Player 1 or 2, Blue
-  // }
-  return 0; // No button pressed
+  else if (digitalRead(PLAYER1_BUTTON_G) == LOW || digitalRead(PLAYER2_BUTTON_G) == LOW)
+  {
+    return (digitalRead(PLAYER1_BUTTON_G) == LOW) ? 0x11 : 0x12; // Player 1 or 2, Green
+  }
+  else if (digitalRead(PLAYER1_BUTTON_B) == LOW || digitalRead(PLAYER2_BUTTON_B) == LOW)
+  {
+    return (digitalRead(PLAYER1_BUTTON_B) == LOW) ? 0x21 : 0x22; // Player 1 or 2, Blue
+  }
+  return 0;
 }
 
 int buzz()
 {
-  analogWrite(BUZZER, gameManager.settings.buzzerVolume * 2.55); // Set buzzer volume
+  analogWrite(BUZZER, gameManager.settings.buzzerVolume * 2.55);
   buzzTime = millis();
   return 0;
 }
@@ -110,8 +108,6 @@ void loop()
     motor.write(90);
     firstLoop = 0;
   }
-  // Serial.println(digitalRead(START_BUTTON));
-  // WS2812B.setPixelColor(0, WS2812B.Color(255, 0, 0));
 
   int potentiometerValue = analogRead(POTENTIOMETER);
 
@@ -119,25 +115,24 @@ void loop()
   {
     Serial.println("Potentiometer value changed: ");
     Serial.println(potentiometerValue);
-    // buzzer volume
     gameManager.settings.buzzerVolume = map(potentiometerValue, 0, 4095, 0, 100);
-    analogWrite(BUZZER, gameManager.settings.buzzerVolume * 2.55); // Set buzzer volume
-    delay(100);                                                    // Debounce delay
-    analogWrite(BUZZER, 0);                                        // Turn off buzzer
+    analogWrite(BUZZER, gameManager.settings.buzzerVolume * 2.55);
+    delay(100);
+    analogWrite(BUZZER, 0);
     lastPotentiometerValue = potentiometerValue;
-    delay(100); // Debounce delay
+    delay(100);
   }
 
   uint32_t p1color = WS2812B.Color(255, 0, 0);
   uint32_t p2color = WS2812B.Color(0, 0, 255);
-  // Divide the strip into two halves proportional to the players scores
+
   int maxScore = gameManager.player1.score + gameManager.player2.score;
   int p1Count = (gameManager.player1.score * STRIP_COUNT) / maxScore;
   int p2Count = STRIP_COUNT - p1Count;
 
   if (maxScore == 0)
   {
-    p1Count = STRIP_COUNT / 2; // Default to half if no scores
+    p1Count = STRIP_COUNT / 2;
     p2Count = STRIP_COUNT / 2;
   }
 
@@ -161,19 +156,19 @@ void loop()
     gameManager.startGame();
     display.clearDisplay();
     display.display();
-    delay(100); // Debounce delay
+    delay(100);
   }
   else if (digitalRead(START_BUTTON) == LOW && gameManager.running == 1)
   {
     Serial.println("Button pressed");
     gameManager.endGame(display, motor, WS2812B);
-    delay(100); // Debounce delay
+    delay(100);
   }
 
   int playerButton = playerButtonRead();
   if (playerButton != 0 && gameManager.running == 1 && hasBeenPressed == 0)
   {
-    int player = (playerButton & 0x0F); // Extract player number (1 or 2)
+    int player = (playerButton & 0x0F);
     int color = (playerButton & 0xF0) >> 4;
     lastButtonsPressed[(player - 1) * 3 + color] = millis();
     Serial.print("Player ");
@@ -266,7 +261,7 @@ void loop()
 
   if (buzzTime > 0 && millis() - buzzTime > 200)
   {
-    analogWrite(BUZZER, 0); // Turn off buzzer after 1 second
+    analogWrite(BUZZER, 0);
     buzzTime = 0;
   }
 

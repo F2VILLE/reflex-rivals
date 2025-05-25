@@ -86,8 +86,7 @@ void GameManager::startGame()
 void GameManager::endGame(
     Adafruit_SSD1306 &display,
     Servo &motor,
-    Adafruit_NeoPixel &WS2812B
-)
+    Adafruit_NeoPixel &WS2812B)
 {
     running = 0;
     turnOffLED();
@@ -101,20 +100,19 @@ void GameManager::endGame(
         display.setCursor(SCREEN_WIDTH / 2 - (14 * 7) / 2, 20);
         for (int i = 0; i < STRIP_COUNT; i++)
         {
-            WS2812B.setPixelColor(i, WS2812B.Color(255,0,0));
+            WS2812B.setPixelColor(i, WS2812B.Color(255, 0, 0));
         }
         display.print("Player 1 Wins!");
         motor.write(90);
-        delay(500); // Wait for a second at the middle position
+        delay(500);
         for (pos = 90; pos <= 180; pos += 1)
-        { // goes from 0 degrees to 180 degrees
-            // in steps of 1 degree
-            motor.write(pos); // tell servo to go to position in variable 'pos'
-            delay(10);        // waits 15ms for the servo to reach the position
+        {
+            motor.write(pos);
+            delay(10);
         }
-        delay(2500);     // Wait for a second at the end position
-        motor.write(90); // Reset servo to middle position
-        delay(500);      // Wait for a second at the middle position
+        delay(2500);
+        motor.write(90);
+        delay(500);
     }
     else if (player2.score > player1.score)
     {
@@ -122,22 +120,21 @@ void GameManager::endGame(
         display.setCursor(SCREEN_WIDTH / 2 - (14 * 7) / 2, 20);
         for (int i = 0; i < STRIP_COUNT; i++)
         {
-            WS2812B.setPixelColor(i, WS2812B.Color(0,0,255));
+            WS2812B.setPixelColor(i, WS2812B.Color(0, 0, 255));
         }
 
         display.print("Player 2 Wins!");
 
         motor.write(90);
-        delay(500); // Wait for a second at the middle position
+        delay(500);
         for (pos = 90; pos >= 0; pos -= 1)
-        { // goes from 0 degrees to 180 degrees
-            // in steps of 1 degree
-            motor.write(pos); // tell servo to go to position in variable 'pos'
-            delay(10);        // waits 15ms for the servo to reach the position
+        {
+            motor.write(pos);
+            delay(10);
         }
-        delay(2500);     // Wait for a second at the end position
-        motor.write(90); // Reset servo to middle position
-        delay(500);      // Wait for a second at the middle position
+        delay(2500);
+        motor.write(90);
+        delay(500);
     }
     else
     {
