@@ -8,11 +8,11 @@ Press the right color the fastest to win !
 - [X] start button
 - [ ] 3 buttons p1
 - [ ] 3 buttons p2
-- [ ] potentiometer
-- [ ] servo
-- [ ] LED strip
+- [X] potentiometer
+- [X] servo
+- [X] LED strip
 - [ ] power supply
-- [ ] screen
+- [X] screen
 - [X] rgb LED
 
 # Code 
@@ -21,9 +21,9 @@ Press the right color the fastest to win !
 - [X] Game loop (Random Color & buzz)
 - [X] Player input
 - [X] Good or bad player input -> points
-- [ ] End game
-- [ ] Display scores on screen & rise flags
+- [X] End game
+- [X] Display scores on screen & rise flags
 - [ ] Game settings (on screen)
-- [ ] Display current score state on the led strip (Blue vs Red)
-- [ ] Display winner by filling the whole LED strip with the winner's color
+- [X] Display current score state on the led strip (Blue vs Red)
+- [X] Display winner by filling the whole LED strip with the winner's color
 
